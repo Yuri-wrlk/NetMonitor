@@ -3,7 +3,10 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
+import org.apache.commons.io.FileUtils;
+
 public class Server {
+	
 	public static void main(String[] args) throws IOException{
         ServerSocket servidor = new ServerSocket(12345);
         System.out.println("Porta 12345 aberta!");
@@ -15,7 +18,23 @@ public class Server {
 
         Scanner s = new Scanner(cliente.getInputStream());
         while (s.hasNextLine()) {
-            System.out.println(s.nextLine());
+        		String l = s.nextLine();
+            System.out.println(l);
+            	
+            if (l.equals("la")) {
+          	  long inicio = System.currentTimeMillis();
+	    	  	  URL url = new URL("http://www.cesadufs.com.br/ORBI/public/uploadCatalago/15250816022012Fundamentos_de_Matematica_aula_12.pdf");
+	    	  	  File download = new File("/Users/adelinofernandes/Desktop/teste.pdf");  
+	    	  	  FileUtils.copyURLToFile(url, download);
+	    	  	  long fim = System.currentTimeMillis();
+	    	  	  
+	    	  	  
+	    	  	  System.out.println((fim-inicio)*0.001);
+	    	  	  System.out.println(download.length()/1024);
+	    	  	  System.out.println(((fim-inicio)*0.001)/download.length()/1024);
+            }
+            
+            
         }
 
         s.close();
