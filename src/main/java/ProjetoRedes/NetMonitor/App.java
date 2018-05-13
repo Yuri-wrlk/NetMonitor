@@ -12,12 +12,12 @@ import java.util.StringTokenizer;
 public class App 
 {
 	  public static  double[] latencia(String command) {
-		  	double [] latencias = new double [11];
+		  	double [] latencias = new double [10];
 			String s;
 			int limite = 0;
 			double n = 0;
 			try {
-				Process p = Runtime.getRuntime().exec(command);
+				Process p = Runtime.getRuntime().exec("ping " + command);
 				BufferedReader inputStream = new BufferedReader(new InputStreamReader(p.getInputStream()));		
 				while ((s = inputStream.readLine()) != null && limite != 10) {
 					 String[] tokens = s.split("time=",-1);			 
@@ -37,8 +37,11 @@ public class App
 		public static void main(String[] args) {
 			
 			String ip = "ftp.jaist.ac.jp";
-			double[] y = latencia("ping " + ip);
+			double[] y = latencia(ip);
 			
+			for (int i = 0; i < y.length; i++) {
+				System.out.println(y[i]);
+			}
 			
 		}
 }

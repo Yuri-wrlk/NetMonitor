@@ -7,6 +7,34 @@ import org.apache.commons.io.FileUtils;
 
 public class Server {
 	
+	/**
+	 * Método para calcular a latência. Ao chamar o método passe o domínio por ex.:google.com
+	 * O método retorna um array de latências, para ser mais específico 10 latências para que 
+	 * possa calcular médias... depois...
+	 */
+	
+	  public static  double[] latencia(String command) {
+		  	double [] latencias = new double [10];
+			String s;
+			int limite = 0;
+			double n = 0;
+			try {
+				Process p = Runtime.getRuntime().exec("ping " + command);
+				BufferedReader inputStream = new BufferedReader(new InputStreamReader(p.getInputStream()));		
+				while ((s = inputStream.readLine()) != null && limite != 10) {
+					 String[] tokens = s.split("time=",-1);			 
+					 if(tokens.length == 2) {
+						 String[] teste = tokens[1].split(" ",-1);
+						 n = Double.parseDouble(teste[0]);
+						 latencias[limite] = n;
+						 limite++;
+					 }	
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return latencias;
+		}
 	
 	public static void AdicionarRegioes(HashMap<Regioes, FileDownloader> mapaLinks) {
 		mapaLinks.put(Regioes.BRASIL, 
