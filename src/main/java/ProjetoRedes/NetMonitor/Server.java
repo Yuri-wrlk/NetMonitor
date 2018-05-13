@@ -29,9 +29,9 @@ public class Server {
 	    	  	  long fim = System.currentTimeMillis();
 	    	  	  
 	    	  	  
-	    	  	  System.out.println((fim-inicio)*0.001);
-	    	  	  System.out.println(download.length()/1024);
-	    	  	  System.out.println(((fim-inicio)*0.001)/download.length()/1024);
+	    	  	  System.out.println((fim-inicio)*0.001+"Segundos");
+	    	  	  System.out.println(download.length()/1024 + "Kb");
+	    	  	  System.out.println((download.length()/1024)/((fim-inicio)*0.001) + "Kbps");
             }
             
             
