@@ -11,34 +11,23 @@ import java.util.StringTokenizer;
  */
 public class App 
 {
-	  public static  double[] runSystemCommand(String command) {
-
+	  public static  double[] latencia(String command) {
 		  	double [] latencias = new double [11];
+			String s;
+			int limite = 0;
+			double n = 0;
 			try {
 				Process p = Runtime.getRuntime().exec(command);
-				BufferedReader inputStream = new BufferedReader(
-						new InputStreamReader(p.getInputStream()));
-
-				String s;
-				int limite = 0;
-				double n = 0;
-				
-				
+				BufferedReader inputStream = new BufferedReader(new InputStreamReader(p.getInputStream()));		
 				while ((s = inputStream.readLine()) != null && limite != 10) {
-					
-					
-					 String[] tokens = s.split("time=",-1);
-					 
+					 String[] tokens = s.split("time=",-1);			 
 					 if(tokens.length == 2) {
 						 String[] teste = tokens[1].split(" ",-1);
 						 n = Double.parseDouble(teste[0]);
-//						 System.out.println(n+"limite "+ limite);
 						 latencias[limite] = n;
 						 limite++;
 					 }	
-
 				}
-
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -48,7 +37,7 @@ public class App
 		public static void main(String[] args) {
 			
 			String ip = "ftp.jaist.ac.jp";
-			double[] y = runSystemCommand("ping " + ip);
+			double[] y = latencia("ping " + ip);
 			
 			
 		}
