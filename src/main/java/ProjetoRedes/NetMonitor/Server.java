@@ -10,7 +10,57 @@ import java.util.Scanner;
 
 
 public class Server {
-	
+		/**
+	 * Função para aguardar o envio do arquivo.
+	 *
+	 **/
+	 public void envia_server() throws IOException {
+
+	        OutputStream socketOut = null;
+	        ServerSocket servsock = null;
+	        FileInputStream fileIn = null;
+
+	        try {
+
+	            // Abrindo porta para conexao de clients
+	            servsock = new ServerSocket(13267);
+	            System.out.println("Porta de conexao aberta 13267");
+
+	            // Cliente conectado
+	            Socket sock = servsock.accept();
+	            System.out.println("Conexao recebida pelo cliente");
+
+	            // Criando tamanho de leitura
+	            byte[] cbuffer = new byte[1024];
+	            int bytesRead;
+
+	            // Criando arquivo que sera transferido pelo servidor
+
+	            File file = new File(System.getProperty("user.home") +"/Desktop/archlinux-64bit.iso");
+	            fileIn = new FileInputStream(file);
+	            System.out.println("Lendo arquivo...");
+
+	            // Criando canal de transferencia
+	            socketOut = sock.getOutputStream();
+	            // Lendo arquivo criado e enviado para o canal de transferencia
+
+	            System.out.println("Enviando Arquivo...");
+	            while ((bytesRead = fileIn.read(cbuffer)) != -1) {
+	                socketOut.write(cbuffer, 0, bytesRead);
+	                socketOut.flush();
+	            }
+	            System.out.println("Arquivo Enviado!");
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        } finally {
+	            if (socketOut != null) 
+	               socketOut.close();
+	            if (servsock != null) 
+	                servsock.close();
+	            if (fileIn != null) 
+	               fileIn.close();  
+	        }
+	    }
 	/**
 	 * Método para calcular a latência. Ao chamar o método passe o domínio por ex.:google.com
 	 * O método retorna um array de latências, para ser mais específico 10 latências para que 
