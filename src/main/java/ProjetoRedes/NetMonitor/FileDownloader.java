@@ -11,10 +11,18 @@ public class FileDownloader extends Thread {
 
 	private String urlDownload;
 	
+	private String regiao;
+	
+	private double tamArqkb;	
+	private double velocDownload;
 	private double tempoMedioDownload;
 	
-	FileDownloader(String url){
+	FileDownloader(String regiao, String url){
+		this.regiao = regiao;
 		this.urlDownload = url;
+		this.tamArqkb = 0.0;
+		this.velocDownload = 0.0;
+		this.tempoMedioDownload = 0.0;
 	}
 	
 	@Override
@@ -28,7 +36,7 @@ public class FileDownloader extends Thread {
 			e1.printStackTrace();
 		}
 		
-	  	File download = new File(System.getProperty("user.home") + "/Desktop/");  
+	  	File download = new File(System.getProperty("user.home") + "/Desktop/archlinux-64bit.iso");  
 	  	try {
 			FileUtils.copyURLToFile(url, download);
 		} catch (IOException e) {
@@ -38,8 +46,32 @@ public class FileDownloader extends Thread {
 	  	long fim = System.currentTimeMillis();
 	  	  
 	  	this.tempoMedioDownload = (fim-inicio)*0.001;
+	  	this.tamArqkb = download.length()/1024;
+	  	this.velocDownload = (download.length()/1024)/((fim-inicio)*0.001); 
+	  	System.out.println("Região: " + regiao);
 	  	System.out.println(tempoMedioDownload+"Segundos");
-	  	System.out.println(download.length()/1024 + "Kb");
-	  	System.out.println((download.length()/1024)/((fim-inicio)*0.001) + "Kbps");
+	  	System.out.println(tamArqkb + "Kb");
+	  	System.out.println(velocDownload + "Kbps");
 	}
+
+	public String getUrlDownload() {
+		return urlDownload;
+	}
+
+	public String getRegiao() {
+		return regiao;
+	}
+
+	public double getTamArqkb() {
+		return tamArqkb;
+	}
+
+	public double getVelocDownload() {
+		return velocDownload;
+	}
+
+	public double getTempoMedioDownload() {
+		return tempoMedioDownload;
+	}
+	
 }

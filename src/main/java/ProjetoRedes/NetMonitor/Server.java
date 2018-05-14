@@ -3,7 +3,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-import org.apache.commons.io.FileUtils;
+
 
 public class Server {
 	
@@ -38,21 +38,21 @@ public class Server {
 	
 	public static void AdicionarRegioes(HashMap<Regioes, FileDownloader> mapaLinks) {
 		mapaLinks.put(Regioes.BRASIL, 
-				new FileDownloader("http://pet.inf.ufsc.br/mirrors/archlinux/iso/2018.05.01/archlinux-2018.05.01-x86_64.iso"));
+				new FileDownloader(Regioes.BRASIL.toString(), "http://pet.inf.ufsc.br/mirrors/archlinux/iso/2018.05.01/archlinux-2018.05.01-x86_64.iso"));
 		mapaLinks.put(Regioes.AUSTRALIA, 
-				new FileDownloader("http://ftp.swin.edu.au/archlinux/iso/2018.05.01/archlinux-2018.05.01-x86_64.iso"));
+				new FileDownloader(Regioes.AUSTRALIA.toString(), "http://ftp.swin.edu.au/archlinux/iso/2018.05.01/archlinux-2018.05.01-x86_64.iso"));
 		mapaLinks.put(Regioes.FRANCA, 
-				new FileDownloader("http://archlinux.vi-di.fr/iso/2018.05.01/archlinux-2018.05.01-x86_64.iso"));
+				new FileDownloader(Regioes.FRANCA.toString(), "http://archlinux.vi-di.fr/iso/2018.05.01/archlinux-2018.05.01-x86_64.iso"));
 		mapaLinks.put(Regioes.RUSSIA, 
-				new FileDownloader("http://mirror.rol.ru/archlinux/iso/2018.05.01/archlinux-2018.05.01-x86_64.iso"));
+				new FileDownloader(Regioes.RUSSIA.toString(), "http://mirror.rol.ru/archlinux/iso/2018.05.01/archlinux-2018.05.01-x86_64.iso"));
 		mapaLinks.put(Regioes.EUA, 
-				new FileDownloader("http://mirror.cc.columbia.edu/pub/linux/archlinux/iso/2018.05.01/archlinux-2018.05.01-x86_64.iso"));
+				new FileDownloader(Regioes.EUA.toString(), "http://mirror.cc.columbia.edu/pub/linux/archlinux/iso/2018.05.01/archlinux-2018.05.01-x86_64.iso"));
 		mapaLinks.put(Regioes.CHINA, 
-				new FileDownloader("https://mirrors.neusoft.edu.cn/archlinux/iso/2018.05.01/archlinux-2018.05.01-x86_64.iso"));
+				new FileDownloader(Regioes.CHINA.toString(), "https://mirrors.neusoft.edu.cn/archlinux/iso/2018.05.01/archlinux-2018.05.01-x86_64.iso"));
 		mapaLinks.put(Regioes.JAPAO, 
-				new FileDownloader("http://ftp.tsukuba.wide.ad.jp/Linux/archlinux/iso/2018.05.01/archlinux-2018.05.01-x86_64.iso"));
+				new FileDownloader(Regioes.JAPAO.toString(), "http://ftp.tsukuba.wide.ad.jp/Linux/archlinux/iso/2018.05.01/archlinux-2018.05.01-x86_64.iso"));
 		mapaLinks.put(Regioes.ALEMANHA, 
-				new FileDownloader("http://mirror.23media.de/archlinux/iso/2018.05.01/archlinux-2018.05.01-x86_64.iso"));
+				new FileDownloader(Regioes.ALEMANHA.toString(), "http://mirror.23media.de/archlinux/iso/2018.05.01/archlinux-2018.05.01-x86_64.iso"));
 			
 	}
 	
@@ -77,6 +77,7 @@ public class Server {
             	
             if (l.equals("la")) {          
             	for(Regioes reg : Regioes.values()) {
+            		System.out.println("Iniciando thread de download da região: " + reg.toString());
             		mapaLinks.get(reg).start();
             	}
         	}
