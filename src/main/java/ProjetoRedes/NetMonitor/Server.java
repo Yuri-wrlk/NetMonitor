@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -132,22 +133,53 @@ public class Server {
         while (s.hasNextLine()) {
             String l = s.nextLine();
             System.out.println(l);
-              
+            ObjectOutputStream lat_out = new ObjectOutputStream(cliente.getOutputStream());
+            
+            if(l.equals("gg")) {
+            	System.out.println("teste");
+            	lat_out.writeObject(mapalatencias);
+            }
             if (l.equals("la")) { 
               mapalatencias.put(Regioes.BRASIL, latencia("pet.inf.ufsc.br"));
-              mapalatencias.put(Regioes.AUSTRALIA, latencia("ftp.swin.edu.au"));
-              mapalatencias.put(Regioes.FRANCA, latencia("archlinux.vi-di.fr"));
-              mapalatencias.put(Regioes.RUSSIA, latencia("mirror.rol.ru"));
-              mapalatencias.put(Regioes.EUA, latencia("mirror.cc.columbia.edu"));
-              mapalatencias.put(Regioes.CHINA, latencia("mirrors.neusoft.edu.cn"));
-              mapalatencias.put(Regioes.JAPAO, latencia("ftp.tsukuba.wide.ad.jp"));
-              mapalatencias.put(Regioes.ALEMANHA, latencia("mirror.23media.de")); 
+//              mapalatencias.put(Regioes.AUSTRALIA, latencia("ftp.swin.edu.au"));
+//              mapalatencias.put(Regioes.FRANCA, latencia("archlinux.vi-di.fr"));
+//              mapalatencias.put(Regioes.RUSSIA, latencia("mirror.rol.ru"));
+//              mapalatencias.put(Regioes.EUA, latencia("mirror.cc.columbia.edu"));
+//              mapalatencias.put(Regioes.CHINA, latencia("mirrors.neusoft.edu.cn"));
+//              mapalatencias.put(Regioes.JAPAO, latencia("ftp.tsukuba.wide.ad.jp"));
+//              mapalatencias.put(Regioes.ALEMANHA, latencia("mirror.23media.de")); 
               
+              
+              
+              // Fazer asssim no lado cliente... 
+              	double[] aux = mapalatencias.get(Regioes.BRASIL);
+              	double media = 0.0;
+              	for (int i = 0; i < aux.length; i++) {
+					media += aux[i];
+				}
+              	media = media/10;
+              	
+              	double variancia = 0.0;
+              	
+             	for (int i = 0; i < aux.length; i++) {
+    					variancia += Math.pow((aux[i]-media), 2);
+    				}	
+             	
+             	variancia = variancia/9;
+             	
+             	double desvio_padrao = Math.sqrt(variancia);
+             	
+             	System.out.println("Desvio "+ desvio_padrao);
+              	 
+              			
+              			
+              			
+              	
              
-            	for(Regioes reg : Regioes.values()) {
-            		System.out.println("Iniciando thread de download da região: " + reg.toString());
-            		mapaLinks.get(reg).start();
-            	}
+//            	for(Regioes reg : Regioes.values()) {
+//            		System.out.println("Iniciando thread de download da região: " + reg.toString());
+//            		mapaLinks.get(reg).start();
+//            	}
         	}
         }
         s.close();
