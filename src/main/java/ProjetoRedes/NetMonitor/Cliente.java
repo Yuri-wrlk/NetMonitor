@@ -18,5 +18,5 @@ public class Cliente {
 		saida.close();
 		teclado.close();
 		cliente.close();
-}
+	}
 }
