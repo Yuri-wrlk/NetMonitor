@@ -1,7 +1,10 @@
 package ProjetoRedes.NetMonitor;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
@@ -120,16 +123,27 @@ public class Server {
         );
 
         HashMap<Regioes, FileDownloader> mapaLinks = new HashMap<Regioes, FileDownloader>();
+        HashMap<Regioes, double[]> mapalatencias =  new HashMap<Regioes, double[]>();
         
         AdicionarRegioes(mapaLinks);
         
         Scanner s = new Scanner(cliente.getInputStream());
         
         while (s.hasNextLine()) {
-        		String l = s.nextLine();
+            String l = s.nextLine();
             System.out.println(l);
-            	
-            if (l.equals("la")) {          
+              
+            if (l.equals("la")) { 
+              mapalatencias.put(Regioes.BRASIL, latencia("pet.inf.ufsc.br"));
+              mapalatencias.put(Regioes.AUSTRALIA, latencia("ftp.swin.edu.au"));
+              mapalatencias.put(Regioes.FRANCA, latencia("archlinux.vi-di.fr"));
+              mapalatencias.put(Regioes.RUSSIA, latencia("mirror.rol.ru"));
+              mapalatencias.put(Regioes.EUA, latencia("mirror.cc.columbia.edu"));
+              mapalatencias.put(Regioes.CHINA, latencia("mirrors.neusoft.edu.cn"));
+              mapalatencias.put(Regioes.JAPAO, latencia("ftp.tsukuba.wide.ad.jp"));
+              mapalatencias.put(Regioes.ALEMANHA, latencia("mirror.23media.de")); 
+              
+             
             	for(Regioes reg : Regioes.values()) {
             		System.out.println("Iniciando thread de download da região: " + reg.toString());
             		mapaLinks.get(reg).start();

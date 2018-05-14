@@ -1,48 +1,74 @@
 package ProjetoRedes.NetMonitor;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.Socket;
 
-import java.io.*;
-import java.util.StringTokenizer;
+public class App {
+  public static void main(String[] args) {
 
+    //Criando Classe cliente para receber arquivo
+    App cliente = new App();
 
+    //Solicitando arquivo
+    cliente.getFileFromServeR();
+  }
 
-/**
- * Hello world!
- *
- */
-public class App 
-{
-	  public static  double[] latencia(String command) {
-		  	double [] latencias = new double [10];
-			String s;
-			int limite = 0;
-			double n = 0;
-			try {
-				Process p = Runtime.getRuntime().exec("ping " + command);
-				BufferedReader inputStream = new BufferedReader(new InputStreamReader(p.getInputStream()));		
-				while ((s = inputStream.readLine()) != null && limite != 10) {
-					 String[] tokens = s.split("time=",-1);			 
-					 if(tokens.length == 2) {
-						 String[] teste = tokens[1].split(" ",-1);
-						 n = Double.parseDouble(teste[0]);
-						 latencias[limite] = n;
-						 limite++;
-					 }	
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return latencias;
-		}
+  private void getFileFromServeR() {
+    Socket sockServer = null;
+    FileOutputStream fos = null;
+    InputStream is = null;
 
-		public static void main(String[] args) {
-			
-			String ip = "ftp.jaist.ac.jp";
-			double[] y = latencia(ip);
-			
-			for (int i = 0; i < y.length; i++) {
-				System.out.println(y[i]);
-			}
-			
-		}
+    try {
+      // Criando conexão com o servidor
+      System.out.println("Conectando com Servidor porta 13267");
+      sockServer = new Socket("10.9.99.18", 13267);
+      is = sockServer.getInputStream();
+
+      // Cria arquivo local no cliente
+      fos = new FileOutputStream(new File(System.getProperty("user.home") +"/Downloads/archlinux-64bit.iso"));
+      System.out.println("Arquivo Local Criado "+ System.getProperty("user.home") +"/Downloads/archlinux-64bit.iso");
+      
+      // Prepara variaveis para transferencia
+      byte[] cbuffer = new byte[1024];
+      int bytesRead;
+
+      // Copia conteudo do canal
+      System.out.println("Recebendo arquivo...");
+      while ((bytesRead = is.read(cbuffer)) != -1) {
+        fos.write(cbuffer, 0, bytesRead);
+        fos.flush();
+      }
+      
+      System.out.println("Arquivo recebido!");
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      if (sockServer != null) {
+        try {
+          sockServer.close();
+        } catch (IOException e1) {
+          e1.printStackTrace();
+        }
+      }
+
+      if (fos != null) {
+        try {
+          fos.close();
+        } catch (IOException e1) {
+          e1.printStackTrace();
+        }
+      }
+
+      if (is != null) {
+        try {
+          is.close();
+        } catch (IOException e1) {
+          e1.printStackTrace();
+        }
+      }
+    }
+
+  }
 }
-
