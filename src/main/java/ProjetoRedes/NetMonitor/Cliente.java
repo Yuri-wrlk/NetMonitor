@@ -61,12 +61,26 @@ public class Cliente {
 			e.printStackTrace();
 		}
 
-		saida.println("la");
+		saida.println("dl");
 
 		saida.close();
 	}
 	
 	public boolean isConnected() {
 		return !cliente.isClosed();
+	}
+
+	public void CalcularLatencias() {
+		PrintStream saida = null;
+		try {
+			saida = new PrintStream(this.cliente.getOutputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		saida.println("la");
+
+		saida.close();
+		
 	}
 }

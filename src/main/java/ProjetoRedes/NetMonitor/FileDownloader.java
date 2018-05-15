@@ -74,4 +74,12 @@ public class FileDownloader extends Thread {
 		return tempoMedioDownload;
 	}
 	
+	public EstatisticaDownload paraEstatistica() {
+		EstatisticaDownload ed = new EstatisticaDownload();
+		ed.setRegiao(regiao);
+		ed.setUrlDownload(urlDownload);
+		ed.setVelocDownload(velocDownload);
+		ed.setTempoMedioDownload(tempoMedioDownload);
+		return ed;
+	}
 }

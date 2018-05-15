@@ -401,7 +401,7 @@ public class MainWindow {
 			}
 		});
 		btnIniciar.setAction(action);
-		btnIniciar.setBounds(232, 471, 89, 23);
+		btnIniciar.setBounds(145, 471, 89, 23);
 		frame.getContentPane().add(btnIniciar);
 		
 		JButton btnBaixar = new JButton("Baixar");
@@ -409,7 +409,7 @@ public class MainWindow {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnBaixar.setBounds(399, 471, 89, 23);
+		btnBaixar.setBounds(487, 471, 89, 23);
 		frame.getContentPane().add(btnBaixar);
 		
 		JLabel lblStatus = new JLabel("Status:");
@@ -419,6 +419,15 @@ public class MainWindow {
 		lblStatusConexao = new JLabel("Offline");
 		lblStatusConexao.setBounds(358, 446, 89, 14);
 		frame.getContentPane().add(lblStatusConexao);
+		
+		JButton btnLatencias = new JButton("Latências");
+		btnLatencias.setBounds(305, 471, 109, 23);
+		btnLatencias.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				mainCliente.CalcularLatencias();
+			}
+		});
+		frame.getContentPane().add(btnLatencias);
 		frame.setBounds(100, 100, 739, 556);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
