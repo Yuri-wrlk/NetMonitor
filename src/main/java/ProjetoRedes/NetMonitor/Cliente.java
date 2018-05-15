@@ -1,10 +1,13 @@
 package ProjetoRedes.NetMonitor;
+
 import java.io.*;
 import java.net.*;
 import java.util.*;
 
 public class Cliente {
-private void solicita_arquivo() throws IOException {
+	private Socket cliente;
+
+	private void solicita_arquivo() throws IOException {
 		Socket sockServer = null;
 		FileOutputStream fos = null;
 		InputStream is = null;
@@ -16,9 +19,10 @@ private void solicita_arquivo() throws IOException {
 			is = sockServer.getInputStream();
 
 			// Cria arquivo local no cliente
-			fos = new FileOutputStream(new File(System.getProperty("user.home") +"/Downloads/archlinux-64bit.iso"));
-			System.out.println("Arquivo Local Criado "+ System.getProperty("user.home") +"/Downloads/archlinux-64bit.iso");
-			
+			fos = new FileOutputStream(new File(System.getProperty("user.home") + "/Downloads/archlinux-64bit.iso"));
+			System.out.println(
+					"Arquivo Local Criado " + System.getProperty("user.home") + "/Downloads/archlinux-64bit.iso");
+
 			// Prepara variaveis para transferencia
 			byte[] cbuffer = new byte[1024];
 			int bytesRead;
@@ -33,29 +37,37 @@ private void solicita_arquivo() throws IOException {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (sockServer != null) 
+			if (sockServer != null)
 				sockServer.close();
-			if (fos != null) 
+			if (fos != null)
 				fos.close();
-			if (is != null) 
+			if (is != null)
 				is.close();
-			
+
 		}
 
-	}	
-	public static void main(String[] args) throws UnknownHostException, IOException {
+	}
+
+	public void iniciarCliente() throws IOException {
 		Socket cliente = new Socket("127.0.0.1", 12345);
 		System.out.println("O cliente se conectou ao servidor!");
-		
+
 		Scanner teclado = new Scanner(System.in);
-		PrintStream saida = new PrintStream(cliente.getOutputStream());
-		
-		while (teclado.hasNextLine()) {
-		    saida.println(teclado.nextLine());
-		}
-		
-		saida.close();
+
 		teclado.close();
 		cliente.close();
+	}
+
+	public void iniciarDownload() {
+		PrintStream saida = null;
+		try {
+			saida = new PrintStream(this.cliente.getOutputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		saida.println("la");
+
+		saida.close();
 	}
 }
