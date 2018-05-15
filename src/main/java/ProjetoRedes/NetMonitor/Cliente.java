@@ -48,14 +48,9 @@ public class Cliente {
 
 	}
 
-	public void iniciarCliente() throws IOException {
-		Socket cliente = new Socket("127.0.0.1", 12345);
+	public Cliente() throws IOException {
+		cliente = new Socket("127.0.0.1", 12345);
 		System.out.println("O cliente se conectou ao servidor!");
-
-		Scanner teclado = new Scanner(System.in);
-
-		teclado.close();
-		cliente.close();
 	}
 
 	public void iniciarDownload() {
@@ -69,5 +64,9 @@ public class Cliente {
 		saida.println("la");
 
 		saida.close();
+	}
+	
+	public boolean isConnected() {
+		return !cliente.isClosed();
 	}
 }

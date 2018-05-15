@@ -47,6 +47,7 @@ public class MainWindow {
 	private JTextField txDownloadAU;
 	private JTextField tempoMedioAU;
 	private JTextField latenciaAU;
+	private JLabel lblStatusConexao;
 	private final Action action = new SwingAction();
 
 	private static Cliente mainCliente;
@@ -64,12 +65,8 @@ public class MainWindow {
 				}
 			}
 		});
-		mainCliente = new Cliente();
-		try {
-			mainCliente.iniciarCliente();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
+		
 	}
 
 	/**
@@ -77,6 +74,16 @@ public class MainWindow {
 	 */
 	public MainWindow() {
 		initialize();
+		try {
+			mainCliente = new Cliente();
+			if(mainCliente.isConnected()){
+				lblStatusConexao.setText("Conectado");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 	/**
@@ -400,8 +407,6 @@ public class MainWindow {
 		JButton btnBaixar = new JButton("Baixar");
 		btnBaixar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				mainCliente.iniciarDownload();
-			    System.out.println("Debug!");
 			}
 		});
 		btnBaixar.setBounds(399, 471, 89, 23);
@@ -411,9 +416,9 @@ public class MainWindow {
 		lblStatus.setBounds(316, 446, 46, 14);
 		frame.getContentPane().add(lblStatus);
 		
-		JLabel lblStatusConexão = new JLabel("Offline");
-		lblStatusConexão.setBounds(358, 446, 46, 14);
-		frame.getContentPane().add(lblStatusConexão);
+		lblStatusConexao = new JLabel("Offline");
+		lblStatusConexao.setBounds(358, 446, 89, 14);
+		frame.getContentPane().add(lblStatusConexao);
 		frame.setBounds(100, 100, 739, 556);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -421,11 +426,12 @@ public class MainWindow {
 		
 		private static final long serialVersionUID = 1L;
 		public SwingAction() {
-			putValue(NAME, "SwingAction");
+			putValue(NAME, "Iniciar");
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
-			
+			mainCliente.iniciarDownload();
+		    System.out.println("Debug!");
 		}
 	}
 }
